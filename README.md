@@ -1,2 +1,2 @@
 ### CTF
-Kirin's Write-up in CTF Games.
+**Kirin's Write-up in CTF Games.**
