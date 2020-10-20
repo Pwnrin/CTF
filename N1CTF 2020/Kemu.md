@@ -1,7 +1,7 @@
 # Kemu
 **Funny QEMU Escape Challenge in N1CTF 2020 (&& GEEKPWN 2020)**
 
-**I'm lucky to finish it with my friend [@luckyu](https://github.com/sh1ner)**
+**I'm lucky to finish it with my friend [@luckyu](https://github.com/sh1ner) .**
 
 ## EXP
 ```
@@ -122,5 +122,5 @@ int main(int argc, char *argv[])
 }
 ```
 ## Escape Successfully
-![PWN](https://upload-images.jianshu.io/upload_images/7434375-e94bf246ee5b25b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![PWN](https://upload-images.jianshu.io/upload_images/7434375-dd608bc828f9384a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
