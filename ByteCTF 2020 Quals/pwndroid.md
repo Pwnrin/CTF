@@ -32,7 +32,7 @@ adb shell am start -a android.intent.action.VIEW -d pwndroid://ip
 ```
 即：新开启pwndroid app来加载ip位置网页
 
-看的APK内部native层定义了常见的add edit show delete操作
+看到APK内部native层定义了常见的add edit show delete操作
 
 明显可以通过show直接leak，且在edit时存在堆溢出
 堆结构:
