@@ -35,6 +35,7 @@ adb shell am start -a android.intent.action.VIEW -d pwndroid://ip
 看到APK内部native层定义了常见的add edit show delete操作
 
 明显可以通过show直接leak，且在edit时存在堆溢出
+
 堆结构:
 ```
 char* data
