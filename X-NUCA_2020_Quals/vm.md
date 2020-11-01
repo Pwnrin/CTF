@@ -62,7 +62,7 @@ https://kirin-say.top/2020/06/01/RCTF-2020-mginx-no-write/#0x02-no-write
 
 也可以选择利用strncmp的方法：
 
-libc 2.27，堆空间开始时固定：0x21000大小，每次设置一个字符到0x20FFF处，而后调用strncmp(flag_addr[index],heap_base+0x20FFF,2),当此位flag正确，则会比较第二位造成crash，在strncmp返回位置设置为read，即可通过阻塞和EOF来爆破flag
+libc 2.27，堆空间开始时固定：0x21000大小，每次设置一个字符到0x20FFF处，而后调用strncmp(flag_addr[index],heap_base+0x20FFF,2),当此位flag正确，则会比较第二位造成crash，在strncmp返回位置设置为read，即可通过判断阻塞和EOF来爆破flag
 
 ## EXP:
 ```
