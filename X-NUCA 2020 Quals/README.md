@@ -1,4 +1,4 @@
-# XNUCA 2020 Quals PWN
+# X-NUCA 2020 Quals PWN
 
 一直在忙着offer问题，断断续续只有一半时间比赛，不过结果可期
 
