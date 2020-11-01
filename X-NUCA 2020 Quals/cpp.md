@@ -1,4 +1,7 @@
 # cpp
+
+**Second Blood**
+
 比较明显的UAF漏洞，控制好堆布局，利用修改unsorted chunk的fd低地址指向_IO_write_ptr，修改其末位为"\xF0"即可，或者修改stdout的flags位和_IO_write_base，前者只需要用0x20的chunk即可设置，布局比较简单
 
 leak后再次tcache attck修改&\_\_free\_hook-8位置为"/bin/sh\x00"+system_addr即可在edit触发free时getshell
