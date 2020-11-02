@@ -33,7 +33,7 @@ ff : nop
 
 而后在run code时即可利用pop操作获得一个堆地址
 
-而后即可利用内存操作指令进行任意堆地址读写，利用call会malloc，并在ret时free，在中间修改chunk构造unsortedbin即可leak libc
+而后即可利用内存操作指令进行任意堆地址读写，利用call会malloc new stack，并在ret时free，在中间修改chunk构造unsorted bin即可leak libc
 
 获得libc地址后，注意sandbox：
 ```
