@@ -1,7 +1,7 @@
 **Lucky to SOLO the three games &&
 GET N\* Blood in PWN challenges.**
 
-(I lost part of Write-up.)
+PS: I lost part of my Write-up.
 ![PWN](./INFO.png)
 
 
