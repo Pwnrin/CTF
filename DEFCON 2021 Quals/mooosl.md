@@ -1,4 +1,4 @@
-### 0x01 Analyze
+# 0x01 Analyze
 Node节点结构：
 ```
 struct Node
@@ -49,8 +49,8 @@ unsigned __int64 delete()
 ```
 在程序查找到准确位置并delete节点时，本应从now_ptr->next_ptr开始判断，却直接判断了ptr->next_ptr,导致可以绕过删除操作进行UAF：  
 当A/B存在hash碰撞，B->A->NULL , 此时删除A，判断时A->next_ptr为NULL，进行了free却未进行删除，造成了UAF
-### 0x02 Exploit
-#### Malloc at anywhere
+# 0x02 Exploit
+## Malloc at anywhere
 首先能确定的是，如果能将一个释放的Node结构重新分配为value，就可以覆写整个Node结构，就可以利用UAF进行任意地址free，但是程序本身保护全开，且musl本身没有设计__malloc_hook和__free_hook, 所以我们需要能将任意地址free变成任意地址分配，通过改写stdin/stdout/stderr结构来完成漏洞利用  
 musl从1.2.2版本开始，放弃了之前的分配算法，新的分配方法在/src/malloc/mallocng中  
 这里整体上通过一个group和meta结构对堆进行管理，堆块本身并不存储指针  
@@ -269,7 +269,7 @@ static inline void *enframe(struct meta *g, int idx, size_t n, int ctr)
 ```
 主要逻辑就是根据请求的size大小对应到ctx.active[sc]中的meta结构，而后分配meta对应的group中的storage的chunk并设置size位。  
 **综上，我们通过伪造一个group和meta结构，在绕过free的check时进入queue位置，将可控的meta加入到ctx.active中，而后通过修改meta的group指针指向一个所需位置，在分配时即可进行任意地址分配。**
-#### LEAK
+## LEAK
 在调试中发现，由于分配的特性，没有FIFO这种操作，而是按照地址高低进行直接分配  
 所以我们需要先获得一个address(value) < address(Node),这样的Node，才可以在free这个Node之后，在进行UAF分配时，先分配value的位置，这样只需要这个value是0x30大小，就可以占位为另一个Node，而且在query输出时：
 ```
@@ -290,7 +290,7 @@ unsigned __int64 query()
 正常分配时：address(value) 一定大于 address(Node)（顺序分配，在add操作时先calloc Node位置）  
 但是同样的libc下，在ubuntu 18.04系统中可以直接在第一次获得这样的Node，但是在Ubuntu 21.04中却不行，所以判断在进行Heap初始化时与系统本身有关。远程系统为Ubuntu 21.04，所以我们直接在21.04中进行bypass，可以注意到在21.04中，最初分配0x30大小的chunk会分配到libc地址附近（0x7F开头的地址），因此我选择进行一次小的堆喷，耗尽高地址的group，这样在一个恰好的位置，就可以满足：分配Node时仍然在高地址，分配value时却因为需要新的group，将其分配到了0x55/56开头的ELF附近的Heap地址，这样就得到了满足上述条件的Node，就可以在UAF时使用Node结构体占位value，leak地址。  
 **leak地址之后使用同样的方法用value占位Node，就可以改写Node中的value指针来进任意地址读，以便获取ctx中的secret，才能完成free中的绕过，进行任意地址free => 任意地址malloc**
-#### GET RCE
+## GET RCE
 看到程序存在退出功能，在exit时：
 ```
 struct _IO_FILE {
@@ -350,7 +350,7 @@ static void close_file(FILE *f)
 可以看到FILE结构体中存在read/write/seek指针  
 并且在最终close_file时，FILE条件合适就可以触发f->write  
 所以只需要任意地址分配到stdin/stderr，并构造：f->wpos != f->wbase，将f->write指向system，并在FILE开始位置设置为字符串"/bin/sh\x00"即可在exit时get shell
-#### Calloc Check
+## Calloc Check
 这里在ida中比较清晰，注意到calloc在调用malloc后：
 ```
 char *__fastcall calloc(unsigned __int64 a1, unsigned __int64 a2)
