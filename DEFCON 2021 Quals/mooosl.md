@@ -182,6 +182,7 @@ struct malloc_context {
   uintptr_t brk;
 };
 ```
+**这里需要注意，由于meta_area在meta结构的页开始位置，所以需要分配一个恰好可控的位置在一个页的开始位置来伪造整个结构。**  
 接着回到free操作，下面都是一些简单的对chunk头的check，可以直接绕过，我们注意到在free时可以进入nontrivial_free函数：
 ```
 static struct mapinfo nontrivial_free(struct meta *g, int i)
@@ -214,7 +215,7 @@ static struct mapinfo nontrivial_free(struct meta *g, int i)
 }
 ```
 可以看到当条件合适，会进入queue和dequeue中，可以理解为将group标记待分配 / 将其free，不再从中分配。  
-如果我们伪造一个合适的meta，就可以进入到queue的流程，将其加入到待分配队列中
+由于剩下的这些check都可以通过meta本身标志位bypass，所以可以伪造一个合适的meta，就可以进入到queue的流程，将其加入到待分配队列中
 分配时，在malloc中：
 ```
 void *malloc(size_t n)
@@ -383,7 +384,7 @@ char *__fastcall calloc(unsigned __int64 a1, unsigned __int64 a2)
     set_size(p, end, n);
     return p;
 ```
-所以在分配到stdin前，我们可以先分配chunk到这个flag_check位置，利用malloc中的set_size将其设置为非0，这样在malloc返回进入calloc时就会关闭check。  
+所以在分配到stdin前，我们可以先分配chunk到这个flag_check位置，利用malloc中的set_size将其设置为非0，这样在malloc返回进入calloc时就会关闭check, 进而在下次calloc分配时可以任意地址分配(注意malloc时简单的chunk头check，需要将chunk分配到stdin前方非0位置)。  
 **到此，便绕过了所有check并布置好stdin，最后触发exit功能get shell即可**
 ### 0x03 EXP
 ```
