@@ -215,7 +215,7 @@ static struct mapinfo nontrivial_free(struct meta *g, int i)
 }
 ```
 可以看到当条件合适，会进入queue和dequeue中，可以理解为将group标记待分配 / 将其free，不再从中分配。  
-由于剩下的这些check都可以通过meta本身标志位bypass，所以可以伪造一个合适的meta，就可以进入到queue的流程，将其加入到待分配队列中
+**由于剩下的这些check都可以通过meta本身标志位bypass，所以可以伪造一个合适的meta，进而进入到queue的流程，就可以将其加入到待分配队列中**  
 分配时，在malloc中：
 ```
 void *malloc(size_t n)
