@@ -1,6 +1,6 @@
-# syscall_read 时不对目标地址进行check
-# 将syscall_log 时 kprintf 的 "%s" 到 kernel_flag 的内容填满来绕过 "\x00" 截断
-# 即可在输出时将 kernel 中的 flag 打印
+# 利用 syscall_read 时不对目标地址进行check
+# 将 syscall_write(kprintf("%s")) 时 kprintf 的 "%s" 到 kernel_flag 的内容填满来绕过输出时的 "\x00" 截断
+# 即可在 syscall_write 输出时将 kernel 中的 flag 打印
 
 from pwn import *
 context.arch = "aarch64"
