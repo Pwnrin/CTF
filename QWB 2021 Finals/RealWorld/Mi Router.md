@@ -1,7 +1,7 @@
 # Mi Router
 
 ```python
-tbus -v list netapi: View tbus interface of object netapi
+tbus -v list netapi: view tbus interface of object netapi
 tbus call netapi init "{\"data\":\"\$(echo 1>/tmp/kirin)\"}"
 
 magic.conf:
