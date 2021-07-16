@@ -71,10 +71,11 @@ BOOLEAN GetKernelModuleBase(const char* Name, ULONG_PTR *lpBaseAddress) {
 	return Success;
 }
 
-#define IOCTL_NEW (0x221803)
-#define IOCTL_DELETE (0x221803+4)
-#define IOCTL_EDIT (0x221803+4+4)
-#define IOCTL_SHOW  (0x221803+4+4+4)
+#define IOCTL_NEW 		( 0x221803 )
+#define IOCTL_DELETE    ( 0x221803 + 4 )
+#define IOCTL_EDIT      ( 0x221803 + 8 )
+#define IOCTL_SHOW      ( 0x221803 + 12 )
+
 HANDLE hDevice;
 int addNote(unsigned int index, unsigned int size) {
 	unsigned int arg[2] = { size,index };
