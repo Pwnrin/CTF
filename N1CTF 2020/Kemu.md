@@ -2,7 +2,7 @@
 **Funny QEMU Escape Challenge in N1CTF 2020 (&& GEEKPWN 2020)**
 
 **I'm lucky to finish it with my friend [@luckyu](https://github.com/sh1ner) .**
-
+[@luckyu](https://blog.northseapwn.top/test.html)
 ## EXP
 ```
 #include <assert.h>
